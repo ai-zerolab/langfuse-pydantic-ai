@@ -63,7 +63,7 @@ agent = Agent(model=model)
 
 If using agent factory function, use `@use_observed_agent` directly
 
-````python
+```python
 from pydantic_ai.agent import Agent
 from langfuse_pydantic_ai import use_observed_agent
 

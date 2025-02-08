@@ -1,6 +1,5 @@
 ![](https://img.shields.io/github/license/wh1isper/langfuse-pydantic-ai)
 ![](https://img.shields.io/github/v/release/wh1isper/langfuse-pydantic-ai)
-![](https://img.shields.io/pypi/dm/langfuse-pydantic-ai)
 ![](https://img.shields.io/github/last-commit/wh1isper/langfuse-pydantic-ai)
 ![](https://img.shields.io/pypi/pyversions/langfuse-pydantic-ai)
 
@@ -76,6 +75,7 @@ def init_agent() -> Agent:
         # For more complex dynamically-generated system prompts, see the example below.
         system_prompt="Be concise, reply with one sentence.",
     )
+```
 
 Configuration via environment variables:
 

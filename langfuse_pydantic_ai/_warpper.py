@@ -5,14 +5,15 @@ from typing import Any, AsyncIterator, Coroutine
 
 from langfuse.decorators import langfuse_context, observe
 from pydantic_ai.agent import Agent
+from pydantic_ai.messages import ModelMessage, ModelResponse
 from pydantic_ai.models import Model, StreamedResponse
 from pydantic_ai.result import Usage
-from pydantic_ai.messages import ModelResponse, ModelMessage
 
 
 def _warp_model_request(model: Model) -> Model:
     origin_request = model.request
     sig = signature(origin_request)
+
     @wraps(origin_request)
     @observe(name="model-request", as_type="generation")
     async def _warpped(

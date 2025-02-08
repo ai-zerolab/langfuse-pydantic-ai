@@ -92,3 +92,12 @@ def observe_model(model: Model) -> Model:
 def observed_agent(agent: Agent) -> Agent:
     agent.model = observe_model(agent.model)
     return agent
+
+
+def use_observed_agent(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        agent = func(*args, **kwargs)
+        return observed_agent(agent)
+
+    return wrapper

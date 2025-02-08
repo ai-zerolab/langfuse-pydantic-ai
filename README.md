@@ -62,13 +62,28 @@ model = observed_model(model)
 agent = Agent(model=model)
 ```
 
+If using agent factory function, use `@use_observed_agent` directly
+
+````python
+from pydantic_ai.agent import Agent
+from langfuse_pydantic_ai import use_observed_agent
+
+@use_observed_agent
+def init_agent() -> Agent:
+    return Agent(
+        "google-gla:gemini-1.5-flash",
+        # Register a static system prompt using a keyword argument to the agent.
+        # For more complex dynamically-generated system prompts, see the example below.
+        system_prompt="Be concise, reply with one sentence.",
+    )
+
 Configuration via environment variables:
 
 ```bash
 LANGFUSE_HOST=<langfuse_host>
 LANGFUSE_PUBLIC_KEY=<langfuse_public_key>
 LANGFUSE_SECRET_KEY=<langfuse_secret_key>
-```
+````
 
 ## Develop
 

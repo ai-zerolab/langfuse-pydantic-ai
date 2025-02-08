@@ -5,4 +5,4 @@ __email__ = "jizhongsheng957@gmail.com"
 __version__ = "0.0.3.dev0"
 
 
-from ._warpper import observed_agent
+from ._warpper import observe_model, observed_agent, use_observed_agent

@@ -1,38 +1,49 @@
-from contextlib import AbstractAsyncContextManager
 from functools import wraps
-from typing import Any, Coroutine
+from typing import Any, AsyncIterator
 
+from langfuse.decorators import langfuse_context, observe
 from pydantic_ai.agent import Agent
-from pydantic_ai.result import RunResult, StreamedRunResult
+from pydantic_ai.models import Model, StreamedResponse
+from pydantic_ai.result import RunResult
 
 
-def _warp_run(agent: Agent) -> Agent:
-    original_run = agent.run
+def _warp_model_request(model: Model) -> Model:
+    origin_request = model.request
 
-    @wraps(original_run)
-    async def _warpped(*args: Any, **kwargs: Any) -> Coroutine[Any, Any, RunResult[str]]:
-        result = await original_run(*args, **kwargs)
+    @observe(name="model-request", as_type="generation")
+    @wraps(origin_request)
+    async def _warpped(*args: Any, **kwargs: Any) -> RunResult[str]:
+
+        model_settings = model.settings
+
+        result = origin_request(*args, **kwargs)
+
         return result
 
-    agent.run = _warpped
-    return agent
+    model.request = _warpped
+
+    return model
 
 
-def _warp_stream(agent: Agent) -> Agent:
-    original_run_stream = agent.run_stream
+def _warp_model_request_stream(model: Model) -> Model:
+    origin_request_stream = model.request_stream
 
-    @wraps(original_run_stream)
-    async def _warpped(
-        *args: Any, **kwargs: Any
-    ) -> AbstractAsyncContextManager[StreamedRunResult[None, str], bool | None]:
-        result = await original_run_stream(*args, **kwargs)
-        return result
+    @observe(name="model-request-stream", as_type="generation")
+    @wraps(origin_request_stream)
+    async def _warpped(*args: Any, **kwargs: Any) -> AsyncIterator[StreamedResponse]:
+        return origin_request_stream(*args, **kwargs)
 
-    agent.run_stream = _warpped
-    return agent
+    model.request_stream = _warpped
+
+    return model
+
+
+def observe_model(model: Model) -> Model:
+    model = _warp_model_request(model)
+    model = _warp_model_request_stream(model)
+    return model
 
 
 def observed_agent(agent: Agent) -> Agent:
-    agent = _warp_run(agent)
-    agent = _warp_stream(agent)
+    agent.model = observe_model(agent.model)
     return agent

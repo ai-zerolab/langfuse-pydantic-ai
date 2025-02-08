@@ -1,11 +1,14 @@
 ![](https://img.shields.io/github/license/wh1isper/langfuse-pydantic-ai)
 ![](https://img.shields.io/github/v/release/wh1isper/langfuse-pydantic-ai)
-![](https://img.shields.io/docker/image-size/wh1isper/langfuse-pydantic)
 ![](https://img.shields.io/pypi/dm/langfuse-pydantic-ai)
 ![](https://img.shields.io/github/last-commit/wh1isper/langfuse-pydantic-ai)
 ![](https://img.shields.io/pypi/pyversions/langfuse-pydantic-ai)
 
 # langfuse_pydantic_ai
+
+> This is a third-party package, not officially maintained by Langfuse. If Langfuse requires for this package, feel free to contact me.
+
+**⚠️ This package is experimental and not fully tested. Use at your own risk.**
 
 A simple wrapper, send trace to langfuse when using pydantic-ai
 
@@ -15,7 +18,7 @@ A simple wrapper, send trace to langfuse when using pydantic-ai
 
 ## Usage
 
-TLDR:
+TL;DR
 
 ```python
 from langfuse_pydantic_ai import observed_agent
@@ -27,11 +30,12 @@ Full example:
 
 ```python
 import asyncio
-from pydantic_ai.agent import Agent
 
+from pydantic_ai.agent import Agent
+from langfuse.decorators import observe
 from langfuse_pydantic_ai import observed_agent
 
-
+@observe # Add this decorator to span a trace
 async def main():
     agent = Agent(
         "google-gla:gemini-1.5-flash",
@@ -46,6 +50,16 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+```
+
+If using custom model, use `observed_model` instead
+
+```python
+from pydantic_ai.agent import Agent
+from langfuse_pydantic_ai import observed_model
+
+model = observed_model(model)
+agent = Agent(model=model)
 ```
 
 Configuration via environment variables:

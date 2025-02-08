@@ -41,7 +41,7 @@ jobs:
                   tag: ${{ github.ref }}
                   overwrite: true
             - name: Bump to next micro dev version
-              run: hatch version micro && hatch version dev
+              run: hatch version micro && hatch version dev && rm -rf .github/tmp/*
             - uses: stefanzweifel/git-auto-commit-action@v5
               with:
                   commit_message: Bump to next micro version

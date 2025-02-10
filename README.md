@@ -83,7 +83,7 @@ Configuration via environment variables:
 LANGFUSE_HOST=<langfuse_host>
 LANGFUSE_PUBLIC_KEY=<langfuse_public_key>
 LANGFUSE_SECRET_KEY=<langfuse_secret_key>
-````
+```
 
 ## Develop
 

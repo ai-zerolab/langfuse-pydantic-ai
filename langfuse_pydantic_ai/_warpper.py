@@ -83,14 +83,17 @@ def _warp_model_request_stream(model: Model) -> Model:
     return model
 
 
-def observe_model(model: Model) -> Model:
+def observed_model(model: Model) -> Model:
     model = _warp_model_request(model)
     model = _warp_model_request_stream(model)
     return model
 
 
 def observed_agent(agent: Agent) -> Agent:
-    agent.model = observe_model(agent.model)
+    if not agent.model:
+        # FIXME: Maybe warming for no model to observe
+        return agent
+    agent.model = observed_model(agent.model)
     return agent
 
 

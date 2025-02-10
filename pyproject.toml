@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest", "pytest-asyncio", "pytest-cov", "dirty-equals"]
+test = ["pytest", "pytest-asyncio", "pytest-cov", "dirty-equals", "inline-snapshot[black]"]
 docs = ["Sphinx", "pydata-sphinx-theme", "sphinx-click", "autodoc_pydantic"]
 
 [[project.authors]]

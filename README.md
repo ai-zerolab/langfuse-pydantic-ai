@@ -7,8 +7,6 @@
 
 > This is a third-party package, not officially maintained by Langfuse. If Langfuse requires for this package, feel free to contact me.
 
-**⚠️ This package is experimental and not fully tested. Use at your own risk.**
-
 A simple wrapper, send trace to langfuse when using pydantic-ai
 
 ## Install

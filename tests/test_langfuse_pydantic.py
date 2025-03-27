@@ -5,9 +5,10 @@ This file is copied from pydantic-ai, warped to use langfuse-pydantic-ai observe
 import os
 from datetime import timezone
 from typing import Any, Iterator
+from uuid import uuid4
 
 import pytest
-from dirty_equals import IsNow as _IsNow
+from dirty_equals import IsNow as _IsNow, IsStr
 from inline_snapshot import snapshot
 from pydantic import BaseModel
 from pydantic_ai import Agent as PydanticAgent
@@ -120,7 +121,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"})],
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id = IsStr())],
                     model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
@@ -128,6 +129,7 @@ async def test_streamed_text_response():
                     parts=[
                         ToolReturnPart(
                             tool_name="ret_a",
+                            tool_call_id=IsStr(),
                             content="a-apple",
                             timestamp=IsNow(tz=timezone.utc),
                         )
@@ -153,7 +155,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"})],
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id = IsStr())],
                     model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
@@ -161,6 +163,7 @@ async def test_streamed_text_response():
                     parts=[
                         ToolReturnPart(
                             tool_name="ret_a",
+                            tool_call_id=IsStr(),
                             content="a-apple",
                             timestamp=IsNow(tz=timezone.utc),
                         )

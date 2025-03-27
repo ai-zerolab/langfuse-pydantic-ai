@@ -8,7 +8,8 @@ from typing import Any, Iterator
 from uuid import uuid4
 
 import pytest
-from dirty_equals import IsNow as _IsNow, IsStr
+from dirty_equals import IsNow as _IsNow
+from dirty_equals import IsStr
 from inline_snapshot import snapshot
 from pydantic import BaseModel
 from pydantic_ai import Agent as PydanticAgent
@@ -121,7 +122,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id = IsStr())],
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
                     model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
@@ -155,7 +156,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id = IsStr())],
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
                     model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),

@@ -75,14 +75,14 @@ def env() -> Iterator[TestEnv]:
 
 def test_result_tuple():
     def return_tuple(_: list[ModelMessage], info: AgentInfo) -> ModelResponse:
-        assert info.result_tools is not None
+        assert info.output_tools is not None
         args_json = '{"response": ["foo", "bar"]}'
-        return ModelResponse(parts=[ToolCallPart(info.result_tools[0].name, args_json)])
+        return ModelResponse(parts=[ToolCallPart(info.output_tools[0].name, args_json)])
 
     agent = Agent(FunctionModel(return_tuple), result_type=tuple[str, str])
 
     result = agent.run_sync("Hello")
-    assert result.data == ("foo", "bar")
+    assert result.output == ("foo", "bar")
 
 
 class Foo(BaseModel):
@@ -92,15 +92,15 @@ class Foo(BaseModel):
 
 def test_result_pydantic_model():
     def return_model(_: list[ModelMessage], info: AgentInfo) -> ModelResponse:
-        assert info.result_tools is not None
+        assert info.output_tools is not None
         args_json = '{"a": 1, "b": "foo"}'
-        return ModelResponse(parts=[ToolCallPart(info.result_tools[0].name, args_json)])
+        return ModelResponse(parts=[ToolCallPart(info.output_tools[0].name, args_json)])
 
     agent = Agent(FunctionModel(return_model), result_type=Foo)
 
     result = agent.run_sync("Hello")
-    assert isinstance(result.data, Foo)
-    assert result.data.model_dump() == {"a": 1, "b": "foo"}
+    assert isinstance(result.output, Foo)
+    assert result.output.model_dump() == {"a": 1, "b": "foo"}
 
 
 async def test_streamed_text_response():

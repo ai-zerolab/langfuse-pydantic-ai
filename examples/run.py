@@ -14,7 +14,7 @@ async def main():
     )
     agent = observed_agent(agent)
     result = await agent.run('Where does "hello world" come from?')
-    print(result.data)
+    print(result.output)
 
 
 if __name__ == "__main__":

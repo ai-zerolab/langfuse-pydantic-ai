@@ -122,8 +122,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
-                    model_name="test",
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())], usage = Usage(request_tokens=51, response_tokens=0, total_tokens=51), model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
                 ModelRequest(
@@ -156,8 +155,7 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
-                    model_name="test",
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())], usage = Usage(request_tokens=51, response_tokens=0, total_tokens=51), model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
                 ModelRequest(
@@ -171,8 +169,7 @@ async def test_streamed_text_response():
                     ]
                 ),
                 ModelResponse(
-                    parts=[TextPart(content='{"ret_a":"a-apple"}')],
-                    model_name="test",
+                    parts=[TextPart(content='{"ret_a":"a-apple"}')], usage = Usage(request_tokens=52, response_tokens=11, total_tokens=63), model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
             ]

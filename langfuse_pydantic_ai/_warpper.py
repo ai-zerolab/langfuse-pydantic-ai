@@ -18,7 +18,7 @@ def _warp_model_request(model: Model) -> Model:
     @observe(name="model-request", as_type="generation")
     async def _warpped(
         *args: Any, **kwargs: Any
-    ) -> Coroutine[Any, Any, tuple[ModelResponse, Usage]]:
+    ) -> Coroutine[Any, Any, ModelResponse]:
         bound_args = sig.bind(*args, **kwargs)
         bound_kwargs = dict(bound_args.arguments)
 
@@ -29,7 +29,8 @@ def _warp_model_request(model: Model) -> Model:
             metadata=bound_kwargs,
         )
 
-        response, usage = await origin_request(*args, **kwargs)
+        response = await origin_request(*args, **kwargs)
+        usage = response.usage
 
         langfuse_context.update_current_observation(
             output=response,
@@ -40,7 +41,7 @@ def _warp_model_request(model: Model) -> Model:
             },
         )
 
-        return response, usage
+        return response
 
     model.request = _warpped
 

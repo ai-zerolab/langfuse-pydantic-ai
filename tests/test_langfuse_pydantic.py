@@ -5,7 +5,6 @@ This file is copied from pydantic-ai, warped to use langfuse-pydantic-ai observe
 import os
 from datetime import timezone
 from typing import Any, Iterator
-from uuid import uuid4
 
 import pytest
 from dirty_equals import IsNow as _IsNow
@@ -122,7 +121,9 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())], usage = Usage(request_tokens=51, response_tokens=0, total_tokens=51), model_name="test",
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
+                    usage=Usage(request_tokens=51, response_tokens=0, total_tokens=51),
+                    model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
                 ModelRequest(
@@ -145,7 +146,7 @@ async def test_streamed_text_response():
                 total_tokens=108,
             )
         )
-        response = await result.get_data()
+        response = await result.get_output()
         assert response == snapshot('{"ret_a":"a-apple"}')
         assert result.is_complete
         assert result.timestamp() == IsNow(tz=timezone.utc)
@@ -155,7 +156,9 @@ async def test_streamed_text_response():
                     parts=[UserPromptPart(content="Hello", timestamp=IsNow(tz=timezone.utc))]
                 ),
                 ModelResponse(
-                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())], usage = Usage(request_tokens=51, response_tokens=0, total_tokens=51), model_name="test",
+                    parts=[ToolCallPart(tool_name="ret_a", args={"x": "a"}, tool_call_id=IsStr())],
+                    usage=Usage(request_tokens=51, response_tokens=0, total_tokens=51),
+                    model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
                 ModelRequest(
@@ -169,7 +172,9 @@ async def test_streamed_text_response():
                     ]
                 ),
                 ModelResponse(
-                    parts=[TextPart(content='{"ret_a":"a-apple"}')], usage = Usage(request_tokens=52, response_tokens=11, total_tokens=63), model_name="test",
+                    parts=[TextPart(content='{"ret_a":"a-apple"}')],
+                    usage=Usage(request_tokens=52, response_tokens=11, total_tokens=63),
+                    model_name="test",
                     timestamp=IsNow(tz=timezone.utc),
                 ),
             ]

@@ -16,9 +16,7 @@ def _warp_model_request(model: Model) -> Model:
 
     @wraps(origin_request)
     @observe(name="model-request", as_type="generation")
-    async def _warpped(
-        *args: Any, **kwargs: Any
-    ) -> Coroutine[Any, Any, ModelResponse]:
+    async def _warpped(*args: Any, **kwargs: Any) -> Coroutine[Any, Any, ModelResponse]:
         bound_args = sig.bind(*args, **kwargs)
         bound_kwargs = dict(bound_args.arguments)
 
